@@ -3,6 +3,7 @@ package nl.miwgroningen.se.ch9.vincent.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import nl.miwgroningen.se.ch9.vincent.model.TimeLog;
 
 /**
@@ -13,14 +14,16 @@ import nl.miwgroningen.se.ch9.vincent.model.TimeLog;
 public class LogTimeController {
 
     private TimeLog timeLog = null;
-    @FXML private Label previousLog;
+    @FXML
+    private TextField eventField;
+    @FXML
+    private Label previousLog;
 
     public void toggleLog(ActionEvent actionEvent) {
         if (timeLog == null) {
             timeLog = new TimeLog();
         } else {
-            String event = "test";
-            timeLog.endLog(event);
+            timeLog.endLog(eventField.getText());
             previousLog.setText(timeLog.toString());
             timeLog = null;
         }

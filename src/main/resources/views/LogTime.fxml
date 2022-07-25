@@ -1,25 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Button?>
-<?import javafx.geometry.Insets?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="nl.miwgroningen.se.ch9.vincent.controller.LogTimeController"
-            prefHeight="400.0" prefWidth="600.0">
-    <VBox alignment="CENTER">
-        <children>
-            <Label text="TimeLogger" />
-            <Button fx:id="toggleLog" text="Start logging" onAction="#toggleLog"/>
-            <Label fx:id="previousLog" />
-        </children>
-    </VBox>
+<VBox alignment="CENTER" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="nl.miwgroningen.se.ch9.vincent.controller.LogTimeController">
 
-</AnchorPane>
+    <padding>
+        <Insets bottom="50.0" left="20.0" right="20.0" top="20.0"/>
+    </padding>
+    <Label text="TimeLogger"/>
+    <TextField fx:id="eventField" promptText="Event name"/>
+    <Button fx:id="toggleLog" onAction="#toggleLog" text="Start logging"/>
+    <Label fx:id="previousLog"/>
+</VBox>
