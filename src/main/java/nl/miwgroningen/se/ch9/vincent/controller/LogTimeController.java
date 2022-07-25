@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import nl.miwgroningen.se.ch9.vincent.App;
 import nl.miwgroningen.se.ch9.vincent.model.TimeLog;
 
 /**
@@ -29,9 +30,11 @@ public class LogTimeController {
             toggleLog.setText("Stop Log");
         } else {
             timeLog.endLog(eventField.getText());
-            previousLog.setText(timeLog.toString());
-            timeLog = null;
-            toggleLog.setText("Start Log");
+
+//            previousLog.setText(timeLog.toString());
+//            timeLog = null;
+//            toggleLog.setText("Start Log");
+            App.showTimeLog(timeLog);
         }
     }
 }
