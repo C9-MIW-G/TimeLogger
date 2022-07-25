@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import nl.miwgroningen.se.ch9.vincent.App;
+import nl.miwgroningen.se.ch9.vincent.database.mysql.TimeLogDAO;
 import nl.miwgroningen.se.ch9.vincent.model.TimeLog;
 
 /**
@@ -30,6 +31,11 @@ public class LogTimeController {
             toggleLog.setText("Stop Log");
         } else {
             timeLog.endLog(eventField.getText());
+
+            App.getDbAccess().openConnection();
+            TimeLogDAO timeLogDAO = new TimeLogDAO(App.getDbAccess());
+            timeLogDAO.save(timeLog);
+            App.getDbAccess().closeConnection();
 
 //            previousLog.setText(timeLog.toString());
 //            timeLog = null;

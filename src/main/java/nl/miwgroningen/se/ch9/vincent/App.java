@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import nl.miwgroningen.se.ch9.vincent.controller.LogTimeController;
 import nl.miwgroningen.se.ch9.vincent.controller.ShowLogController;
+import nl.miwgroningen.se.ch9.vincent.database.mysql.DBAccess;
 import nl.miwgroningen.se.ch9.vincent.model.TimeLog;
 
 import java.io.IOException;
@@ -17,6 +18,7 @@ import java.io.IOException;
 public class App extends Application {
 
     private static Scene scene;
+    private static DBAccess dbAccess = null;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -54,6 +56,13 @@ public class App extends Application {
         } catch (IOException e) {
             System.err.println("Unable to load TimeLog screen");
         }
+    }
+
+    public static DBAccess getDbAccess() {
+        if (dbAccess == null) {
+            dbAccess = new DBAccess("TimeLogger", "userTimeLogger", "pwTimeLogger");
+        }
+        return dbAccess;
     }
 
     public static void main(String[] args) {

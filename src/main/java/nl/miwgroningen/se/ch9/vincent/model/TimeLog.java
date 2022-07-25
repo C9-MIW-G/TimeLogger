@@ -40,4 +40,8 @@ public class TimeLog {
     public LocalDateTime getEndTime() {
         return endTime;
     }
+
+    public String getEvent() {
+        return event;
+    }
 }
