@@ -12,13 +12,17 @@ public class TimeLog {
     public static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
     private String event;
-    private LocalDateTime startTime;
+    private final LocalDateTime startTime;
     private LocalDateTime endTime;
 
+    public TimeLog(String event, LocalDateTime startTime, LocalDateTime endTime) {
+        this.event = event;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+
     public TimeLog() {
-        this.event = null;
-        this.startTime = LocalDateTime.now();
-        this.endTime = null;
+        this(null, LocalDateTime.now(), null);
     }
 
     public void endLog(String event) {

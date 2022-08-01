@@ -11,7 +11,7 @@ import java.sql.Statement;
  */
 public abstract class AbstractDAO {
 
-	protected DBAccess dbAccess;
+	protected final DBAccess dbAccess;
 	protected PreparedStatement preparedStatement;
 
 	public AbstractDAO(DBAccess dbAccess) {
@@ -55,7 +55,7 @@ public abstract class AbstractDAO {
 	}
 
 	/**
-	 * Voert de prepared statement uit en geeft de gegenereerde sleutel terug.
+	 * Voert de preparedStatement uit en geeft de gegenereerde sleutel terug.
 	 * Wordt gebruikt voor een insert in een AutoIncrement tabel
 	 */
 	protected int executeInsertStatementWithKey() throws SQLException {
@@ -67,4 +67,8 @@ public abstract class AbstractDAO {
 		}
 		return gegenereerdeSleutel;
 	}
+
+    protected void sqlErrorMessage(SQLException sqlException) {
+        System.err.println("An error occurred in SQL: " + sqlException.getMessage());
+    }
 }

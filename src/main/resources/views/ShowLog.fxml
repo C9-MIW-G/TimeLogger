@@ -14,4 +14,5 @@
     <Label fx:id="startTime"/>
     <Label fx:id="endTime"/>
     <Button onAction="#toLogScene" text="Go back to Logging"/>
+    <Button onAction="#toLogHistoryScene" text="Show log history"/>
 </VBox>

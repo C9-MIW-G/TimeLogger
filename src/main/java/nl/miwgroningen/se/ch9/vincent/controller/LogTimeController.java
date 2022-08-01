@@ -37,9 +37,6 @@ public class LogTimeController {
             timeLogDAO.save(timeLog);
             App.getDbAccess().closeConnection();
 
-//            previousLog.setText(timeLog.toString());
-//            timeLog = null;
-//            toggleLog.setText("Start Log");
             App.showTimeLog(timeLog);
         }
     }

@@ -1,6 +1,5 @@
 package nl.miwgroningen.se.ch9.vincent.controller;
 
-import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
 import nl.miwgroningen.se.ch9.vincent.App;
 import nl.miwgroningen.se.ch9.vincent.model.TimeLog;
@@ -21,5 +20,9 @@ public class ShowLogController {
 
     public void toLogScene() {
         App.loadTimeLog();
+    }
+
+    public void toLogHistoryScene() {
+        App.showLogHistory();
     }
 }

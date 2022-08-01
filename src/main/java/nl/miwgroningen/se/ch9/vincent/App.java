@@ -5,7 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import nl.miwgroningen.se.ch9.vincent.controller.LogTimeController;
+import nl.miwgroningen.se.ch9.vincent.controller.LogHistoryController;
 import nl.miwgroningen.se.ch9.vincent.controller.ShowLogController;
 import nl.miwgroningen.se.ch9.vincent.database.mysql.DBAccess;
 import nl.miwgroningen.se.ch9.vincent.model.TimeLog;
@@ -55,6 +55,18 @@ public class App extends Application {
             scene.setRoot(parent);
         } catch (IOException e) {
             System.err.println("Unable to load TimeLog screen");
+        }
+    }
+
+    public static void showLogHistory() {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/views/LogHistory.fxml"));
+        try {
+            Parent parent = fxmlLoader.load();
+            LogHistoryController logHistoryController = fxmlLoader.getController();
+            logHistoryController.setup();
+            scene.setRoot(parent);
+        } catch (IOException e) {
+            System.err.println("Unable to load TimeLog history screen");
         }
     }
 
