@@ -9,12 +9,12 @@ import java.util.Optional;
  */
 public class Project {
 
-    private Optional<Long> projectId;
+    private Long projectId;
     private String projectName;
     private String projectCode;
 
     public Project(Long projectId, String projectName, String projectCode) {
-        this.projectId = Optional.of(projectId);
+        this.projectId = projectId;
         this.projectName = projectName;
         this.projectCode = projectCode;
     }
@@ -24,11 +24,14 @@ public class Project {
     }
 
     public Optional<Long> getProjectId() {
-        return projectId;
+        if (projectId == null) {
+            return Optional.empty();
+        }
+        return Optional.of(projectId);
     }
 
     public void setProjectId(Long projectId) {
-        this.projectId = Optional.of(projectId);
+        this.projectId = projectId;
     }
 
     public String getProjectName() {
@@ -37,5 +40,18 @@ public class Project {
 
     public String getProjectCode() {
         return projectCode;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public void setProjectCode(String projectCode) {
+        this.projectCode = projectCode;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s - %s", projectName, projectCode);
     }
 }

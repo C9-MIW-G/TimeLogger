@@ -1,6 +1,5 @@
 package nl.miwgroningen.se.ch9.vincent.controller;
 
-import javafx.event.EventType;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -16,6 +15,7 @@ public class MenuController {
     public static MenuBar getMenu() {
         var projectMenu = new Menu("Project");
         var manageProjectsMenuItem = new MenuItem("Manage projects");
+        manageProjectsMenuItem.setOnAction((actionEvent -> App.showManageProjects()));
         projectMenu.getItems().addAll(manageProjectsMenuItem);
 
         var createLogMenuItem = new MenuItem("Create new log");

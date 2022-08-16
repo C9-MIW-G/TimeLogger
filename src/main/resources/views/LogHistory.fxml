@@ -14,9 +14,9 @@
    </padding>
    <VBox alignment="TOP_CENTER" layoutX="250.0" layoutY="100.0" AnchorPane.bottomAnchor="0.0"
          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-      <HBox alignment="CENTER" prefHeight="50.0">
-         <Button mnemonicParsing="false" onAction="#goToLogTime" text="Button"/>
-      </HBox>
       <ListView fx:id="logHistoryListView" prefHeight="450.0" prefWidth="600.0"/>
+      <HBox alignment="CENTER" prefHeight="50.0">
+         <Button mnemonicParsing="false" onAction="#goToLogTime" text="Create new Log"/>
+      </HBox>
    </VBox>
 </AnchorPane>

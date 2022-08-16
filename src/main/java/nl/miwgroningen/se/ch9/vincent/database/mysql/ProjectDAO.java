@@ -19,7 +19,29 @@ public class ProjectDAO extends AbstractDAO {
         super(dbAccess);
     }
 
+    public void delete(Project project) {
+        String sql = "DELETE FROM project WHERE projectid = ?;";
+
+        if (project.getProjectId().isEmpty()) {
+            // this project wasn't persisted to the DB
+            return;
+        }
+
+        try {
+            setupPreparedStatement(sql);
+            preparedStatement.setLong(1, project.getProjectId().get());
+            executeManipulateStatement();
+        } catch (SQLException sqlException) {
+            sqlErrorMessage(sqlException);
+        }
+    }
+
     public void save(Project project) {
+        if (project.getProjectId().isPresent()) {
+            // this project is already in the DB and should be updated instead
+            update(project);
+            return;
+        }
         String sql = "INSERT INTO project (projectname, projectcode) VALUES (?, ?);";
 
         try {
@@ -31,6 +53,26 @@ public class ProjectDAO extends AbstractDAO {
             long projectId = executeInsertStatementWithKey();
 
             project.setProjectId(projectId);
+        } catch (SQLException sqlException) {
+            sqlErrorMessage(sqlException);
+        }
+    }
+
+    public void update(Project project) {
+        if (project.getProjectId().isEmpty()) {
+            // this project was not yet persisted and should be saved instead
+            save(project);
+            return;
+        }
+
+        String sql = "UPDATE project SET projectname = ?, projectcode = ? WHERE projectid = ?;";
+
+        try {
+            setupPreparedStatement(sql);
+            preparedStatement.setString(1, project.getProjectName());
+            preparedStatement.setString(2, project.getProjectCode());
+            preparedStatement.setLong(3, project.getProjectId().get());
+            executeManipulateStatement();
         } catch (SQLException sqlException) {
             sqlErrorMessage(sqlException);
         }
@@ -75,5 +117,7 @@ public class ProjectDAO extends AbstractDAO {
         String projectCode = resultSet.getString("projectcode");
         return new Project(projectId, projectName, projectCode);
     }
+
+
 
 }

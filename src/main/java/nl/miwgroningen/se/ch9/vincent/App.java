@@ -7,10 +7,9 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import nl.miwgroningen.se.ch9.vincent.controller.Loadable;
-import nl.miwgroningen.se.ch9.vincent.controller.LogHistoryController;
 import nl.miwgroningen.se.ch9.vincent.controller.MenuController;
-import nl.miwgroningen.se.ch9.vincent.controller.ShowLogController;
 import nl.miwgroningen.se.ch9.vincent.database.mysql.DBAccess;
+import nl.miwgroningen.se.ch9.vincent.model.Project;
 import nl.miwgroningen.se.ch9.vincent.model.TimeLog;
 
 import java.io.IOException;
@@ -67,6 +66,18 @@ public class App extends Application {
 
     public static void showLogHistory() {
         loadScene("LogHistory");
+    }
+
+    public static void showManageProjects() {
+        loadScene("ManageProjects");
+    }
+
+    public static void showCreateProject() {
+        loadScene("Project");
+    }
+
+    public static void showEditProject(Project project) {
+        loadScene("Project", project);
     }
 
     public static DBAccess getDbAccess() {
