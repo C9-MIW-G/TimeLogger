@@ -1,5 +1,6 @@
 package nl.miwgroningen.se.ch9.vincent.database.mysql;
 
+import nl.miwgroningen.se.ch9.vincent.model.Project;
 import nl.miwgroningen.se.ch9.vincent.model.TimeLog;
 
 import java.sql.ResultSet;
@@ -7,6 +8,7 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Vincent Velthuizen <v.r.velthuizen@pl.hanze.nl>
@@ -20,13 +22,18 @@ public class TimeLogDAO extends AbstractDAO {
     }
 
     public void save(TimeLog timeLog) {
-        String sql = "INSERT INTO timeLog (event, startTime, endTime) VALUES (?, ? ,?);";
+        String sql = "INSERT INTO timeLog (event, projectid, startTime, endTime) VALUES (?, ? ,?, ?);";
 
         try {
             setupPreparedStatement(sql);
             preparedStatement.setString(1, timeLog.getEvent());
-            preparedStatement.setObject(2, timeLog.getStartTime());
-            preparedStatement.setObject(3, timeLog.getEndTime());
+            if (timeLog.getProject() != null && timeLog.getProject().getProjectId().isPresent()) {
+                preparedStatement.setLong(2, timeLog.getProject().getProjectId().get());
+            } else {
+                preparedStatement.setObject(2, null);
+            }
+            preparedStatement.setObject(3, timeLog.getStartTime());
+            preparedStatement.setObject(4, timeLog.getEndTime());
             executeManipulateStatement();
         } catch (SQLException sqlException) {
             sqlErrorMessage(sqlException);
@@ -36,16 +43,25 @@ public class TimeLogDAO extends AbstractDAO {
     public List<TimeLog> getTimeLogs() {
         List<TimeLog> timeLogs = new ArrayList<>();
 
-        String sql = "SELECT event, startTime, endTime FROM timelog;";
+        String sql = "SELECT startTime, endTime, projectid, event FROM timelog;";
         try {
             setupPreparedStatement(sql);
             try (ResultSet resultSet = executeSelectStatement()) {
                 while (resultSet.next()) {
-                    String event = resultSet.getString(1);
-                    LocalDateTime startTime = resultSet.getObject(2, LocalDateTime.class);
-                    LocalDateTime endTime = resultSet.getObject(3, LocalDateTime.class);
+                    LocalDateTime startTime = resultSet.getObject(1, LocalDateTime.class);
+                    LocalDateTime endTime = resultSet.getObject(2, LocalDateTime.class);
 
-                    timeLogs.add(new TimeLog(event, startTime, endTime));
+                    long projectId = resultSet.getLong(3);
+                    System.out.println("getting project");
+                    ProjectDAO projectDAO = new ProjectDAO(dbAccess);
+                    Optional<Project> project = projectDAO.get(projectId);
+                    if (project.isPresent()) {
+                        System.out.println("got project");
+                        timeLogs.add(new TimeLog(project.get(), startTime, endTime));
+                    } else {
+                        String event = resultSet.getString(4);
+                        timeLogs.add(new TimeLog(event, startTime, endTime));
+                    }
                 }
             }
         } catch (SQLException sqlException) {

@@ -11,7 +11,8 @@ import java.time.format.DateTimeFormatter;
 public class TimeLog {
     public static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
-    private String event;
+    private String event = null;
+    private Project project = null;
     private final LocalDateTime startTime;
     private LocalDateTime endTime;
 
@@ -21,19 +22,34 @@ public class TimeLog {
         this.endTime = endTime;
     }
 
+    public TimeLog(Project project, LocalDateTime startTime, LocalDateTime endTime) {
+        this.project = project;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+
     public TimeLog() {
-        this(null, LocalDateTime.now(), null);
+        this((String) null, LocalDateTime.now(), null);
     }
 
     public void endLog(String event) {
         this.event = event;
+        endLog();
+    }
+
+    public void endLog(Project project) {
+        this.project = project;
+        endLog();
+    }
+
+    private void endLog() {
         this.endTime = LocalDateTime.now();
     }
 
     @Override
     public String toString() {
         return String.format("event: %s\nstartTime: %s, endTime: %s",
-                this.event,
+                project != null ? project : this.event,
                 this.startTime.format(timeFormatter), this.endTime.format(timeFormatter));
     }
 
@@ -47,5 +63,9 @@ public class TimeLog {
 
     public String getEvent() {
         return event;
+    }
+
+    public Project getProject() {
+        return project;
     }
 }

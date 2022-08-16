@@ -85,7 +85,7 @@ public class ProjectDAO extends AbstractDAO {
             setupPreparedStatement(sql);
             preparedStatement.setLong(1, projectId);
             ResultSet resultSet = executeSelectStatement();
-            if (resultSet.first()) {
+            if (resultSet.next()) {
                 return Optional.of(get(resultSet));
             }
         } catch (SQLException sqlException) {
