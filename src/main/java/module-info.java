@@ -5,4 +5,5 @@ module nl.miwgroningen.se.ch9.vincent {
 
     opens nl.miwgroningen.se.ch9.vincent.controller to javafx.fxml;
     exports nl.miwgroningen.se.ch9.vincent;
+    exports nl.miwgroningen.se.ch9.vincent.model;
 }

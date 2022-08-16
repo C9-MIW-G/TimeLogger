@@ -9,17 +9,21 @@ import nl.miwgroningen.se.ch9.vincent.model.TimeLog;
  * <p>
  * Dit is wat het programma doet.
  */
-public class ShowLogController {
+public class ShowLogController implements Loadable {
     public Label startTime;
     public Label endTime;
 
-    public void setup(TimeLog timeLog) {
+    public void load(Object... args) {
+        if (args.length < 1 || !(args[0] instanceof TimeLog)) {
+            throw new IllegalArgumentException("Expected TimeLog object");
+        }
+        var timeLog = (TimeLog) args[0];
         startTime.setText(timeLog.getStartTime().format(TimeLog.timeFormatter));
         endTime.setText(timeLog.getEndTime().format(TimeLog.timeFormatter));
     }
 
     public void toLogScene() {
-        App.loadTimeLog();
+        App.showLogTime();
     }
 
     public void toLogHistoryScene() {

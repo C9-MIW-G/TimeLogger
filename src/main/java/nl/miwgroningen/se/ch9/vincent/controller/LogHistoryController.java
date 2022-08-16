@@ -1,6 +1,7 @@
 package nl.miwgroningen.se.ch9.vincent.controller;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import nl.miwgroningen.se.ch9.vincent.App;
 import nl.miwgroningen.se.ch9.vincent.database.mysql.TimeLogDAO;
@@ -11,11 +12,11 @@ import nl.miwgroningen.se.ch9.vincent.model.TimeLog;
  * <p>
  * Show a history of all logs
  */
-public class LogHistoryController {
+public class LogHistoryController implements Loadable {
 
     public ListView<TimeLog> logHistoryListView;
 
-    public void setup() {
+    public void load(Object... args) {
         App.getDbAccess().openConnection();
         TimeLogDAO timeLogDAO = new TimeLogDAO(App.getDbAccess());
         logHistoryListView.getItems().addAll(timeLogDAO.getTimeLogs());
@@ -23,6 +24,6 @@ public class LogHistoryController {
     }
 
     public void goToLogTime(ActionEvent actionEvent) {
-        App.loadTimeLog();
+        App.showLogTime();
     }
 }

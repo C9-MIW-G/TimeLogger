@@ -4,13 +4,17 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import nl.miwgroningen.se.ch9.vincent.controller.Loadable;
 import nl.miwgroningen.se.ch9.vincent.controller.LogHistoryController;
+import nl.miwgroningen.se.ch9.vincent.controller.MenuController;
 import nl.miwgroningen.se.ch9.vincent.controller.ShowLogController;
 import nl.miwgroningen.se.ch9.vincent.database.mysql.DBAccess;
 import nl.miwgroningen.se.ch9.vincent.model.TimeLog;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * JavaFX App
@@ -21,53 +25,48 @@ public class App extends Application {
     private static DBAccess dbAccess = null;
 
     @Override
-    public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("LogTime"), 640, 480);
+    public void start(Stage stage) {
+        scene = new Scene(new BorderPane(), 640, 480);
         stage.setScene(scene);
         stage.show();
+
+        loadScene("LogTime");
     }
 
-    static void setRoot(String fxml) throws IOException {
-        scene.setRoot(loadFXML(fxml));
-    }
+    static void loadScene(String fxml, Object... args) {
+        var borderPane = new BorderPane();
 
-    private static Parent loadFXML(String fxml) throws IOException {
+        borderPane.setTop(MenuController.getMenu());
+
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/views/" + fxml + ".fxml"));
-        return fxmlLoader.load();
+        Parent fxmlParent;
+        try {
+            fxmlParent = fxmlLoader.load();
+
+            if (fxmlLoader.getController() instanceof Loadable) {
+                Loadable loadableController = fxmlLoader.getController();
+                loadableController.load(args);
+            }
+
+            borderPane.setCenter(fxmlParent);
+        } catch (IOException e) {
+            System.err.printf("Unable to load FXML: %s with arguments: %S%n",
+                    fxml, Arrays.toString(args));
+        }
+
+        scene.setRoot(borderPane);
     }
 
-    public static void loadTimeLog() {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/views/LogTime.fxml"));
-        try {
-            Parent parent = fxmlLoader.load();
-            scene.setRoot(parent);
-        } catch (IOException e) {
-            System.err.println("Unable to load TimeLog screen");
-        }
+    public static void showLogTime() {
+        loadScene("LogTime");
     }
 
     public static void showTimeLog(TimeLog timeLog) {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/views/ShowLog.fxml"));
-        try {
-            Parent parent = fxmlLoader.load();
-            ShowLogController showLogController = fxmlLoader.getController();
-            showLogController.setup(timeLog);
-            scene.setRoot(parent);
-        } catch (IOException e) {
-            System.err.println("Unable to load TimeLog screen");
-        }
+        loadScene("ShowLog", timeLog);
     }
 
     public static void showLogHistory() {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/views/LogHistory.fxml"));
-        try {
-            Parent parent = fxmlLoader.load();
-            LogHistoryController logHistoryController = fxmlLoader.getController();
-            logHistoryController.setup();
-            scene.setRoot(parent);
-        } catch (IOException e) {
-            System.err.println("Unable to load TimeLog history screen");
-        }
+        loadScene("LogHistory");
     }
 
     public static DBAccess getDbAccess() {
