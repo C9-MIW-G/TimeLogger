@@ -52,11 +52,9 @@ public class TimeLogDAO extends AbstractDAO {
                     LocalDateTime endTime = resultSet.getObject(2, LocalDateTime.class);
 
                     long projectId = resultSet.getLong(3);
-                    System.out.println("getting project");
                     ProjectDAO projectDAO = new ProjectDAO(dbAccess);
                     Optional<Project> project = projectDAO.get(projectId);
                     if (project.isPresent()) {
-                        System.out.println("got project");
                         timeLogs.add(new TimeLog(project.get(), startTime, endTime));
                     } else {
                         String event = resultSet.getString(4);
