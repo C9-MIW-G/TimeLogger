@@ -9,23 +9,23 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
+    <packaging>jar</packaging>
     <dependencies>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>18.0.1</version>
+            <version>18.0.2</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>18.0.1</version>
+            <version>18.0.2</version>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.29</version>
+            <version>8.0.30</version>
         </dependency>
-
     </dependencies>
     <build>
         <plugins>
@@ -38,19 +38,53 @@
                 </configuration>
             </plugin>
             <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>nl.miwgroningen.se.ch9.vincent.Launcher</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
-                <version>0.0.6</version>
+                <version>0.0.8</version>
                 <executions>
                     <execution>
                         <!-- Default configuration for running -->
                         <!-- Usage: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>nl.miwgroningen.se.ch9.vincent.App</mainClass>
+                            <mainClass>nl.miwgroningen.se.ch9.vincent.Launcher</mainClass>
                         </configuration>
                     </execution>
                 </executions>
+<!--                <configuration>-->
+<!--                    <stripDebug>true</stripDebug>-->
+<!--                    <compress>2</compress>-->
+<!--                    <noHeaderFiles>true</noHeaderFiles>-->
+<!--                    <noManPages>true</noManPages>-->
+<!--                    <launcher>TimeLogger</launcher>-->
+<!--                    <jlinkImageName>TimeLogger</jlinkImageName>-->
+<!--                    <jlinkZipName>TimeLoggerZip</jlinkZipName>-->
+<!--                    <jlinkVerbose>true</jlinkVerbose>-->
+<!--                    <mainClass>nl.miwgroningen.se.ch9.vincent.App</mainClass>-->
+<!--                    <jmodsPath>modules/</jmodsPath>-->
+<!--                </configuration>-->
             </plugin>
         </plugins>
     </build>

@@ -10,5 +10,11 @@ CREATE TABLE `timeLog` (
     `endTime` DATETIME
 );
 
+CREATE TABLE `project`(
+    `projectid`   INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `projectname` TEXT,
+    `projectcode` TEXT
+);
+
 CREATE USER IF NOT EXISTS 'userTimeLogger'@'localhost' IDENTIFIED BY 'pwTimeLogger';
-GRANT ALL PRIVILEGES ON Pensioen . * TO 'TimeLogger'@'localhost';
+GRANT ALL PRIVILEGES ON TimeLogger . * TO 'TimeLogger'@'localhost';
