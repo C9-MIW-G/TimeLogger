@@ -1,7 +1,11 @@
 package nl.miwgroningen.se.ch9.vincent.model;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
+import java.util.List;
 
 /**
  * @author Vincent Velthuizen <v.r.velthuizen@pl.hanze.nl>
@@ -46,11 +50,23 @@ public class TimeLog {
         this.endTime = LocalDateTime.now();
     }
 
+    public Duration getDuration() {
+        return Duration.between(startTime, endTime);
+    }
+
+    public String printableDuration() {
+        Duration duration = getDuration();
+        return String.format("%d:%02d:%02d",
+                duration.toHours(), duration.toMinutesPart(), duration.toSecondsPart());
+    }
+
     @Override
     public String toString() {
-        return String.format("event: %s\nstartTime: %s, endTime: %s",
+        return String.format("event: %s (duration: %s)\nstartTime: %s, endTime: %s",
                 project != null ? project : this.event,
-                this.startTime.format(timeFormatter), this.endTime.format(timeFormatter));
+                printableDuration(),
+                this.startTime.format(timeFormatter),
+                this.endTime.format(timeFormatter));
     }
 
     public LocalDateTime getStartTime() {
